@@ -1,4 +1,4 @@
 {
-  "demo_faults_enabled": true,
+  "demo_faults_enabled": false,
   "checkout_error_rate": 0.0
 }
