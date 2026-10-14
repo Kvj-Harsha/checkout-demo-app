@@ -1,0 +1,23 @@
+services:
+  checkout-demo:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  k6:
+    image: grafana/k6:0.53.0
+    profiles: ["load"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      checkout-demo:
+        condition: service_healthy
+    volumes:
+      - ./load/checkout.js:/scripts/checkout.js:ro
+    command: ["run", "--vus", "100", "--duration", "2m", "/scripts/checkout.js"]
