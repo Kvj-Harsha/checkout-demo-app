@@ -4,6 +4,11 @@ services:
     ports:
       - "127.0.0.1:8000:8000"
     restart: unless-stopped
+    environment:
+      # Settings live on a shared volume so Sentinel can apply the human-approved fix where the app reads it.
+      DEMO_SETTINGS_PATH: /config/settings.json
+    volumes:
+      - demo-settings:/config
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
       interval: 10s
@@ -21,3 +26,7 @@ services:
     volumes:
       - ./load/checkout.js:/scripts/checkout.js:ro
     command: ["run", "--vus", "100", "--duration", "2m", "/scripts/checkout.js"]
+
+volumes:
+  demo-settings:
+    name: checkout-demo-settings
