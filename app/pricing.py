@@ -15,6 +15,4 @@ def tax_rate(country):
 def order_total(subtotal, country):
     """Return the order total including tax, rounded to cents."""
     rate = tax_rate(country)
-    if rate is None:
-        rate = 0
     return round(subtotal * (1 + rate), 2)
