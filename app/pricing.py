@@ -9,7 +9,7 @@ TAX_RATES = {"US": 0.07, "GB": 0.20, "DE": 0.19, "FR": 0.20}
 
 def tax_rate(country):
     """Return the tax rate for an ISO country code."""
-    return TAX_RATES.get(country, 0)
+    return TAX_RATES.get(country)
 
 
 def order_total(subtotal, country):
